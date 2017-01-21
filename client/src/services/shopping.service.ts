@@ -20,12 +20,21 @@ export class ShoppingService {
         this.http = http;
     }
 
+    /**
+     * Send request to get Product list from server
+     * @returns {Observable<R>}
+     */
     getProducts (): Observable<Product[]> {
         return this.http.get(this.apiUrl + "/products")
             .map(this.extractDataGet)
             .catch(this.handleError);
     }
 
+    /**
+     * Sends basket to server to calculate prices and offers
+     * @param products Product list
+     * @returns {Observable<R>} Observable
+     */
     calculateBasket(products: Product[]): Observable<Product[]> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
@@ -35,6 +44,11 @@ export class ShoppingService {
             .catch(this.handleError);
     }
 
+    /**
+     * Parse product list retrieved from server (GET request)
+     * @param res HTTP Response
+     * @returns {Product[]} Product List
+     */
     private extractDataGet(res: Response): Product[] {
         let body        = res.json();
         let products: Product[]    = body.data;
@@ -47,12 +61,21 @@ export class ShoppingService {
         return products;
     }
 
+    /**
+     * Parses product list retrieve from server (POST request) - after calculating the prices and offers
+     * @param res HTTP Response
+     */
     private extractData(res: Response): Product[] {
         let body        = res.json();
 
         return body.data;
     }
 
+    /**
+     * Handles errors retrieved from the server
+     * @param error Error
+     * @returns {any}
+     */
     private handleError (error: Response | any) {
         let errMsg: string;
 

@@ -12,14 +12,16 @@ class _App {
         this.products   = [];
     }
     constructor() {
-        console.log("App created");
-
         this._properties();
 
         this.loadProducts();
         this.setUpRouter();
     }
 
+
+    /**
+     * Loads products from config file
+     */
     loadProducts() {
         if (!this.config.hasOwnProperty("products") || !Array.isArray(this.config.products))
             return;
@@ -39,6 +41,11 @@ class _App {
         }
     }
 
+    /**
+     * Loads offer, if exists, from the offers file
+     * @param offerName Offer name to be matched
+     * @returns {{ name: string, func: Function }} Offer object, which includes a name and function to be called when applying the offer
+     */
     loadOffer(offerName) {
         let offer = null;
 
@@ -48,7 +55,11 @@ class _App {
         return offer;
     }
 
+    /**
+     * Setup API router
+     */
     setUpRouter() {
+        // error handler
         this.router.use((req, res, next) => {
             try {
                 next();
@@ -57,6 +68,7 @@ class _App {
             }
         });
 
+        // retrieve list of products in stock
         this.router.get('/products', (req, res) => {
             let ret = this.products.map((v) => {
                 return {
@@ -72,6 +84,7 @@ class _App {
             res.json({ "data": ret });
         });
 
+        // post a basket and retrieve list with prices and offers
         this.router.post('/checkout', (req, res) => {
             if (!req.body) return res.sendStatus(400);
 

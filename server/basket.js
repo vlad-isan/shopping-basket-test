@@ -10,11 +10,19 @@ class Basket {
         this.app        = null;
     }
 
+    /**
+     *
+     * @param ctx App reference
+     */
     constructor(ctx) {
         this._properties();
         this.app = ctx;
     }
 
+    /**
+     * Parses the POSTed JSON from client
+     * @param body JSON body
+     */
     parse(body) {
         if (typeof body.data == 'undefined')
             throw new Error("Bad format");
@@ -47,6 +55,11 @@ class Basket {
         }
     }
 
+    /**
+     * Calculates product price by taking into consideration any possible offers
+     * @param listEl product element
+     * @returns {{unitPrice: *, totalPrice: number, offerPrice: *}}
+     */
     calculateProductPrice(listEl) {
         let price       =   listEl.product.price * listEl.qty;
         let offer_price =   null;
@@ -61,7 +74,10 @@ class Basket {
         };
     }
 
-
+    /**
+     * Format response for client
+     * @returns {{data: Array}}
+     */
     toJson() {
         let ret = {
             data: []

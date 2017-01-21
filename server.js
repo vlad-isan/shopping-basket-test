@@ -9,21 +9,26 @@ let path        = require('path');
 let bodyParser  = require('body-parser');
 let App         = require('./server/app');
 
-let server = express();
+let exp = express();
 
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: false }));
+exp.use(bodyParser.json());
+exp.use(bodyParser.urlencoded({ extended: false }));
 
-server.use('/client/dist',         express.static(path.join(__dirname, '/client/dist')));
-server.use('/node_modules',        express.static(path.join(__dirname, '/node_modules')));
-server.use('/systemjs.config.js',  express.static(path.join(__dirname, '/systemjs.config.js')));
+exp.use('/client/dist',         express.static(path.join(__dirname, '/client/dist')));
+exp.use('/node_modules',        express.static(path.join(__dirname, '/node_modules')));
+exp.use('/systemjs.config.js',  express.static(path.join(__dirname, '/systemjs.config.js')));
 
-server.use('/api', App.router);
+// api router
+exp.use('/api', App.router);
 
-server.get('/', (req, res) => {
+exp.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-server.listen(App.config.port, () => {
+let server = exp.listen(App.config.port, () => {
     console.log("App listening on port 3000");
 });
+
+module.exports.close = function () {
+    server.close();
+};

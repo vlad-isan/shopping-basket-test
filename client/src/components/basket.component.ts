@@ -26,6 +26,9 @@ export class BasketComponent {
         this.getProducts();
     }
 
+    /**
+     * Gets product list from server
+     */
     getProducts() {
         this.service.getProducts()
             .subscribe(
@@ -36,10 +39,20 @@ export class BasketComponent {
             );
     }
 
+    /**
+     * Binding for retrieving the QTY property for a product
+     * @param prod Product
+     * @returns {number} Quantity
+     */
     getQty(prod: Product): number {
         return prod.qty;
     }
 
+    /**
+     * Formats price
+     * @param value Number to be formatted
+     * @returns {string} Formatted price string
+     */
     formatPrice(value: number): string {
         let price = value.toFixed(((value % 1 === 0) ? 0 : 2));
 
@@ -51,6 +64,11 @@ export class BasketComponent {
         return price;
     }
 
+    /**
+     * Refreshes basket - called when QTY value changed
+     * @param prod Product
+     * @param value QTY value
+     */
     setQty(prod: Product, value: string) {
         let qty = parseInt(value, 10);
 
@@ -59,6 +77,9 @@ export class BasketComponent {
         this.calculateBasket();
     }
 
+    /**
+     * Sends request to the server to calculate our basket
+     */
     calculateBasket() {
         let basket = this.products.filter((v) => {
             if (v.qty < 1) {
@@ -78,6 +99,10 @@ export class BasketComponent {
                     );
     }
 
+    /**
+     * Refrehses the products with the calculated prices retrieved from the API
+     * @param products Product array
+     */
     calculateCheckout(products: Product[]) {
         this.offers = [];
 
@@ -92,10 +117,12 @@ export class BasketComponent {
             if (v.price.offerPrice != null && v.price.offerPrice > 0)
                 this.offers.push(v);
         });
-
-        console.log(this.offers);
     }
 
+    /**
+     * Calculates total price, including offers
+     * @returns {string} Total formatted price string
+     */
     calculateTotal(): string {
         let total:number = 0;
 
