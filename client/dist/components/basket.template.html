@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th class="text-center">Unit Price</th>
+                    <th class="text-center">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let prod of products">
+                    <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">{{ prod.name }}</a></h4>
+                                <span *ngIf="prod.offer != null"><span>Offer: </span><span class="text-success"><strong>{{ prod.offer }}</strong></span></span>
+                            </div>
+                        </div></td>
+                    <td class="col-sm-2 col-md-2" style="text-align: center">
+                        <input type="number" min="0" step="1" class="form-control" [ngModel]="getQty(prod)" (ngModelChange)="setQty(prod, $event)">
+                    </td>
+                    <td class="col-sm-1 col-md-1 text-center"><strong>{{ formatPrice(prod.price.unitPrice) }}</strong></td>
+                    <td class="col-sm-1 col-md-1 text-center"><strong>{{ formatPrice((prod.price.offerPrice || prod.price.totalPrice)) }}</strong></td>
+
+                </tr>
+
+                <ng-container *ngFor="let prod of products">
+                    <tr *ngIf="prod.qty > 0">
+                        <td>   </td>
+                        <td>{{ prod.name }}</td>
+                        <td><h5>x {{ prod.qty }}</h5></td>
+                        <td class="text-right"><h5><strong>{{ formatPrice(prod.price.totalPrice) }}</strong></h5></td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngFor="let prod of offers">
+                    <tr *ngIf="prod.price.offerPrice != null && prod.price.offerPrice > 0">
+                        <td>   </td>
+                        <td class="text-success">{{prod.name}}: {{ prod.offer }}</td>
+                        <td><h5></h5></td>
+                        <td class="text-right"><h5><strong>- {{ formatPrice((prod.price.totalPrice - prod.price.offerPrice)) }}</strong></h5></td>
+                    </tr>
+                </ng-container>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td><h3>Total</h3></td>
+                    <td class="text-right"><h3><strong>{{ calculateTotal() }}</strong></h3></td>
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                        </button></td>
+                    <td>
+                        <button type="button" class="btn btn-success">
+                            Checkout <span class="glyphicon glyphicon-play"></span>
+                        </button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

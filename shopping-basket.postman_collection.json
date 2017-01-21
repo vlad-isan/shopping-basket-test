@@ -1,0 +1,48 @@
+{
+	"variables": [],
+	"info": {
+		"name": "shopping-basket",
+		"_postman_id": "acb1eaa4-a082-a08a-05f0-f52d1dc51317",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Retrieve product list",
+			"request": {
+				"url": "http://localhost:3000/api/products",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer [your_token_here]",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Basket checkout",
+			"request": {
+				"url": "http://localhost:3000/api/checkout",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": [\n\t\t{\n\t\t\t\"id\":\t1,\n\t\t\t\"qty\":\t3\n\t\t}, {\n\t\t\t\"id\":\t2,\n\t\t\t\"qty\":\t4\n\t\t}, {\n\t\t\t\"id\":\t4\n\t\t}, {\n\t\t\t\"name\": \"Papaya\",\n\t\t\t\"qty\":\t3\n\t\t}, {\n\t\t\t\"name\":\t\"Garlic\"\n\t\t}, {\n\t\t\t\"name\": \"Garlic\"\n\t\t}\n\t]\n}"
+				},
+				"description": "Basket checkout"
+			},
+			"response": []
+		}
+	]
+}
