@@ -16,7 +16,7 @@ Node.js and npm
 Get it now</a> if it's not already installed on your machine.
  
  
- ## Install npm packages
+## Install npm packages
  
  Install the npm packages described in the `package.json` and verify that it works:
  
