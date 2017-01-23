@@ -4,7 +4,7 @@
   "description": "shopping basket technical test",
   "main": "index.js",
   "scripts": {
-    "test": "npm run tsc && jasmine-node spec",
+    "test": "jasmine-node spec",
     "start": "npm run tsc && concurrently \"npm run tsc:w\" \"node server.js\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w"

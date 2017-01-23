@@ -36,7 +36,10 @@ class Basket {
                 continue;
 
             let prod = Object.assign(this.app.products.find((el) => {
-                return ((id && el.id === id) || (name && name.toLowerCase() == el.name.toLowerCase()));
+                if (id !== null)
+                    return el.id === id;
+                else
+                    return name.toLowerCase() === el.name.toLowerCase();
             })) || null;
 
             if (prod != null) {
